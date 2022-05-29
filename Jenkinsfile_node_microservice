@@ -58,7 +58,7 @@ pipeline {
 
 def deploy(String  environment) {
     echo "Demployment on ${environment} environment triggered (ノಠ益ಠ)ノ彡┻━┻ "
-    build job:"ui-tests", parameters: [string(name: "ENVIRONMENT", defaultValue: "${environment}")]
+    build job:"ui-tests", parameters: [string(name: "ENVIRONMENT", value: "${environment}")]
 }
 
 def test(String  environment) {
