@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                echo "Building Node application"
+                echo "Building node application"
             }
         }
         stage('deploy-dev') {
@@ -23,7 +23,6 @@ pipeline {
                 }
             }
         }
-
         stage('deploy-int') {
             steps {
                 script{
@@ -38,18 +37,17 @@ pipeline {
                 }
             }
         }
-
-        stage('deploy-prod') {
+        stage('deploy-prd') {
             steps {
                 script{
-                    deploy("PROD")
+                    deploy("PRD")
                 }
             }
         }
-        stage('test-prod') {
+        stage('test-prd') {
             steps {
                 script{
-                    test("PROD")
+                    test("PRD")
                 }
             }
         }
@@ -63,7 +61,7 @@ def deploy(String environment){
 
 def test(String environment){
     echo "Running tests on ${environment} environment.."
-    sh "docker run --network=host -d -t --name api_test_executor_${environment} api_test_excutor"
+    sh "docker run --network=host -d -t --name api_test_executor_${environment} api_test_executor"
     sh "docker exec api_test_executor_${environment} cucumber --tags=@${environment} --format html --out test-output/report.html"
     sh "docker cp api_test_executor_${environment}:/usr/src/api-tests/test-output/report.html report_${environment}.html"
     sh "docker rm -f api_test_executor_${environment}"
