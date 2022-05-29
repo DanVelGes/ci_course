@@ -1,7 +1,4 @@
 # frozen_string_literal: true
-# Martins Tararujs22
-# fdsfsdfsd
-# fdssfs
 
 source "https://rubygems.org"
 
