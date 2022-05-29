@@ -56,16 +56,15 @@ pipeline {
     }
 }
 
-def deploy(String  environment) {
-    echo "Demployment on ${environment} environment triggered (ノಠ益ಠ)ノ彡┻━┻ "
-    build job:"ui-tests", parameters: [string(name: "ENVIRONMENT", value: "${environment}")]
+def deploy(String environment){
+    echo "Deployment on ${environment} environment triggered... "
+    build job: "ui-tests", parameters: [string(name: "ENVIRONMENT", value: "${environment}")]
 }
 
-def test(String  environment) {
-    echo "Running tests on ${environment} environment triggered (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜) "
-    sh "docker run --network+host -d -t --name api_test_executor_${environment} api_test_executor"
+def test(String environment){
+    echo "Running tests on ${environment} environment.."
+    sh "docker run --network=host -d -t --name api_test_executor_${environment} api_test_excutor"
     sh "docker exec api_test_executor_${environment} cucumber --tags=@${environment} --format html --out test-output/report.html"
     sh "docker cp api_test_executor_${environment}:/usr/src/api-tests/test-output/report.html report_${environment}.html"
     sh "docker rm -f api_test_executor_${environment}"
-
 }
